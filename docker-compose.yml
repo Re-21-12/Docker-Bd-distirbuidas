@@ -1,0 +1,88 @@
+version: '3.7'
+
+services:
+  master:
+    image: mariadb:10.5
+    container_name: mariadb_master
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: repl
+      MYSQL_PASSWORD: replpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./master/my.cnf:/etc/mysql/my.cnf
+      - ./mariadb/init:/docker-entrypoint-initdb.d
+    networks:
+      - mariadb_net
+
+  slave1:
+    image: mariadb:10.5
+    container_name: mariadb_slave1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    depends_on:
+      - master
+    volumes:
+      - ./slave1/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mariadb_net
+
+  slave2:
+    image: mariadb:10.5
+    container_name: mariadb_slave2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    depends_on:
+      - master
+    volumes:
+      - ./slave2/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mariadb_net
+
+  slave3:
+    image: mariadb:10.5
+    container_name: mariadb_slave3
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    depends_on:
+      - master
+    volumes:
+      - ./slave3/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mariadb_net
+
+  slave4:
+    image: mariadb:10.5
+    container_name: mariadb_slave4
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    depends_on:
+      - master
+    volumes:
+      - ./slave4/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mariadb_net
+
+  slave5:
+    image: mariadb:10.5
+    container_name: mariadb_slave5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+    depends_on:
+      - master
+    volumes:
+      - ./slave5/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - mariadb_net
+
+networks:
+  mariadb_net:
+    driver: bridge
